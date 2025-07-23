@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerita Untukmu - Interactive Love Story</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Lora:wght@400;500;600&family=Dancing+Script:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Background Music -->
+    <audio id="bgMusic" src="celengan-rindu.mp3" loop></audio>
+    <button id="musicToggle"
+        style="position:fixed;top:20px;right:20px;z-index:999;background:#fff;border-radius:50px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border:none;cursor:pointer;font-size:18px;display:none;">
+        <span id="musicIcon">🔊</span> Musik
+    </button>
+    <!-- Modal for music toggle -->
+    <div id="musicModal"
+        style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:2000;display:flex;align-items:center;justify-content:center;">
+        <div
+            style="background:#fff;padding:32px 40px;border-radius:24px;box-shadow:0 4px 24px rgba(0,0,0,0.12);text-align:center;max-width:90vw;">
+            <div style="font-size:48px;margin-bottom:16px;">
+                <span id="musicModalIcon">🔊</span>
+            </div>
+            <h3 style="margin-bottom:12px;">Aktifkan Musik?</h3>
+            <p style="margin-bottom:24px;color:#555;">Klik tombol di bawah untuk memutar musik latar yang menemani
+                cerita ini.</p>
+            <button id="musicModalBtn"
+                style="background:#e91e63;color:#fff;font-size:20px;padding:12px 32px;border:none;border-radius:50px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                <span style="font-size:28px;vertical-align:middle;">🔊</span> Aktifkan Musik
+            </button>
+        </div>
+    </div>
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicModal = document.getElementById('musicModal');
+        const musicModalBtn = document.getElementById('musicModalBtn');
+        let isPlaying = false;
+        // Show modal on first load
+        window.addEventListener('DOMContentLoaded', function () {
+            bgMusic.volume = 1;
+            musicModal.style.display = 'flex';
+            musicToggle.style.display = 'none';
+        });
+        // Modal button click: play music, show toggle
+        musicModalBtn.onclick = function () {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicIcon.textContent = '🔊';
+            }).catch(() => { });
+            musicModal.style.display = 'none';
+            musicToggle.style.display = 'inline-block';
+        };
+        // Toggle button click: play/pause
+        musicToggle.onclick = function () {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicIcon.textContent = '🔇';
+            } else {
+                bgMusic.play().catch(() => { });
+                musicIcon.textContent = '🔊';
+            }
+            isPlaying = !isPlaying;
+        };
+    </script>
+    <div class="photo-backgrounds">
+        <div class="sliding-photos">
+            <div class="photo-slide" style="--delay: 0s;">
+                <img src="alun-alun1.jpg" alt="Memory 1" />
+            </div>
+            <div class="photo-slide" style="--delay: -3s;">
+                <img src="alun-alun2.jpg" alt="Memory 2" />
+            </div>
+            <div class="photo-slide" style="--delay: -6s;">
+                <img src="alun-alun3.jpg" alt="Memory 3" />
+            </div>
+            <div class="photo-slide" style="--delay: -9s;">
+                <img src="vsga.jpg" alt="Memory 4" />
+            </div>
+        </div>
+
+        <div class="floating-photos">
+            <div class="floating-photo" style="--duration: 8s; --delay: 0s;">
+                <img src="alun-alun5.jpg" alt="Floating Memory 1" />
+            </div>
+            <div class="floating-photo" style="--duration: 10s; --delay: -2s;">
+                <img src="awal-kenal.jpg" alt="Floating Memory 2" />
+            </div>
+            <div class="floating-photo" style="--duration: 12s; --delay: -4s;">
+                <img src="couple1.jpg" alt="Floating Memory 3" />
+            </div>
+            <div class="floating-photo" style="--duration: 9s; --delay: -6s;">
+                <img src="ice-cream.jpg" alt="Floating Memory 4" />
+            </div>
+        </div>
+
+        <div class="rotating-photos">
+            <div class="rotating-photo" style="--rotation-duration: 15s;">
+                <img src="kota-lama1.jpg" alt="Rotating Memory 1" />
+            </div>
+            <div class="rotating-photo" style="--rotation-duration: 20s;">
+                <img src="kota-lama2.jpg" alt="Rotating Memory 2" />
+            </div>
+            <div class="rotating-photo" style="--rotation-duration: 18s;">
+                <img src="kota-lama3.jpg" alt="Rotating Memory 3" />
+            </div>
+            <div class="rotating-photo" style="--rotation-duration: 22s;">
+                <img src="vsga.jpg" alt="Rotating Memory 4" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="floating-hearts"></div>
+    <div class="stars-container"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-text" id="progressText">Bab 1 dari 7</div>
+    </div>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <div class="dot active" data-step="0"></div>
+        <div class="dot" data-step="1"></div>
+        <div class="dot" data-step="2"></div>
+        <div class="dot" data-step="3"></div>
+        <div class="dot" data-step="4"></div>
+        <div class="dot" data-step="5"></div>
+        <div class="dot" data-step="6"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="story-container">
+
+        <!-- Step 1: Opening -->
+        <section class="story-step active" id="step-0">
+            <div class="story-content">
+                <div class="chapter-header">
+                    <h1 class="chapter-title">Untukmu, Pejuang Hebat</h1>
+                    <p class="chapter-subtitle">Sebuah cerita interaktif tentang kekuatan dan keindahan jiwa</p>
+                </div>
+
+                <div class="story-text">
+                    <p class="quote-large">"Kadang kita tidak tahu betapa kuatnya diri kita, sampai menjadi kuat adalah
+                        satu-satunya pilihan yang kita punya."</p>
+                    <cite>- Inspired by Pidi Baiq</cite>
+                </div>
+
+                <div class="interactive-element">
+                    <div class="floating-book" onclick="nextStep()">
+                        <i class="fas fa-book-open"></i>
+                        <span>Mulai Cerita</span>
+                    </div>
+                </div>
+
+                <!-- Animated Photo Gallery in Opening -->
+                <div class="opening-photo-gallery">
+                    <div class="gallery-photo" style="--animation-delay: 0s;">
+                        <img src="kota-lama-bunga2.jpg" alt="Opening Memory 1" />
+                        <div class="photo-overlay">
+                            <span>Kenangan Indah</span>
+                        </div>
+                    </div>
+                    <div class="gallery-photo" style="--animation-delay: 1s;">
+                        <img src="alun-alun3.jpg" alt="Opening Memory 2" />
+                        <div class="photo-overlay">
+                            <span>Momen Bahagia</span>
+                        </div>
+                    </div>
+                    <div class="gallery-photo" style="--animation-delay: 2s;">
+                        <img src="may_2.jpg" alt="Opening Memory 3" />
+                        <div class="photo-overlay">
+                            <span>Senyuman Tulus</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="next-btn" onclick="nextStep()">
+                    <span>Buka Halaman Pertama</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 2: Recognition -->
+        <section class="story-step" id="step-1">
+            <div class="story-content">
+                <div class="chapter-header">
+                    <h2 class="chapter-title">Bab I: Pengakuan</h2>
+                    <div class="typewriter-container">
+                        <p class="typewriter">Aku ingin kamu tahu...</p>
+                    </div>
+                </div>
+
+                <!-- Animated Photo Strip -->
+                <div class="photo-strip">
+                    <div class="strip-photo">
+                        <img src="may_4.jpg" alt="Strip Photo 1" />
+                    </div>
+                    <div class="strip-photo">
+                        <img src="rooftop.jpg" alt="Strip Photo 2" />
+                    </div>
+                    <div class="strip-photo">
+                        <img src="tahun-baru1.jpg" alt="Strip Photo 3" />
+                    </div>
+                    <div class="strip-photo">
+                        <img src="w-may-balaikota.jpg" alt="Strip Photo 4" />
+                    </div>
+                    <div class="strip-photo">
+                        <img src="alun-alun1.jpg" alt="Strip Photo 5" />
+                    </div>
+                    <div class="strip-photo">
+                        <img src="vsga.jpg" alt="Strip Photo 5" />
+                    </div>
+                    <div class="strip-photo">
+                        <img src="kota-lama3.jpg" alt="Strip Photo 5" />
+                    </div>
+                </div>
+
+                <div class="story-cards">
+                    <div class="story-card" data-reveal="1">
+                        <div class="card-photo">
+                            <img src="alun-alun2.jpg" alt="Card Photo 1" />
+                        </div>
+                        <div class="card-icon">💫</div>
+                        <h3>Kekuatan Tersembunyi</h3>
+                        <p>"Kamu itu seperti bulan. Bahkan ketika kamu merasa redup, kamu tetap menerangi kegelapan
+                            orang lain."</p>
+                        <small>- Terinspirasi dari "Dilan 1990"</small>
+                    </div>
+
+                    <div class="story-card" data-reveal="2">
+                        <div class="card-photo">
+                            <img src="alun-alun3.jpg" alt="Card Photo 2" />
+                        </div>
+                        <div class="card-icon">🌸</div>
+                        <h3>Keindahan dalam Perjuangan</h3>
+                        <p>"Perempuan kuat itu bukan yang tidak pernah menangis, tapi yang bangkit setelah menangis."
+                        </p>
+                        <small>- Terinspirasi dari "3726mdpl"</small>
+                    </div>
+
+                    <div class="story-card" data-reveal="3">
+                        <div class="card-photo">
+                            <img src="alun-alun4.jpg" alt="Card Photo 3" />
+                        </div>
+                        <div class="card-icon">✨</div>
+                        <h3>Cahaya di Kegelapan</h3>
+                        <p>"Kamu adalah jawaban dari doa-doa yang belum sempat kuucapkan."</p>
+                        <small>- Terinspirasi dari "Night Malioboro"</small>
+                    </div>
+                </div>
+
+                <div class="interactive-heart" onclick="showLove()">
+                    <i class="fas fa-heart"></i>
+                    <span class="heart-text">Klik untuk mengirim cinta</span>
+                </div>
+
+                <button class="next-btn" onclick="nextStep()">
+                    <span>Lanjut ke Bab Selanjutnya</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 3: Journey -->
+        <section class="story-step" id="step-2">
+            <div class="story-content">
+                <div class="chapter-header">
+                    <h2 class="chapter-title">Bab II: Perjalanan</h2>
+                    <p class="chapter-subtitle">Setiap langkah adalah keajaiban</p>
+                </div>
+
+                <!-- Parallax Photo Background -->
+                <div class="parallax-photos">
+                    <div class="parallax-layer" data-speed="0.5">
+                        <img src="alun-alun5.jpg" alt="Parallax 1" />
+                    </div>
+                    <div class="parallax-layer" data-speed="0.3">
+                        <img src="awal-kenal.jpg" alt="Parallax 2" />
+                    </div>
+                    <div class="parallax-layer" data-speed="0.7">
+                        <img src="couple1.jpg" alt="Parallax 3" />
+                    </div>
+                </div>
+
+                <div class="journey-timeline">
+                    <div class="timeline-item" data-aos="fade-right">
+                        <div class="timeline-photo">
+                            <img src="ice-cream.jpg" alt="Timeline Photo 1" />
+                        </div>
+                        <div class="timeline-icon">🌱</div>
+                        <div class="timeline-content">
+                            <h4>Awal yang Berani</h4>
+                            <p>"Setiap hari adalah kesempatan baru untuk menjadi versi terbaik dari diri kita."</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" data-aos="fade-left">
+                        <div class="timeline-photo">
+                            <img src="kota-lama1.jpg" alt="Timeline Photo 2" />
+                        </div>
+                        <div class="timeline-icon">🦋</div>
+                        <div class="timeline-content">
+                            <h4>Transformasi</h4>
+                            <p>"Seperti kupu-kupu yang keluar dari kepompong, kamu telah berubah menjadi sosok yang
+                                menakjubkan."</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" data-aos="fade-right">
+                        <div class="timeline-photo">
+                            <img src="kota-lama2.jpg" alt="Timeline Photo 3" />
+                        </div>
+                        <div class="timeline-icon">🌟</div>
+                        <div class="timeline-content">
+                            <h4>Bersinar</h4>
+                            <p>"Kamu bukan hanya bertahan hidup, kamu berkembang dan bersinar."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-constellation" id="constellation">
+                    <div class="constellation-text">Klik bintang-bintang untuk melihat harapan</div>
+                </div>
+
+                <button class="next-btn" onclick="nextStep()">
+                    <span>Temukan Kekuatan Dalam</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 4: Strength -->
+        <section class="story-step" id="step-3">
+            <div class="story-content">
+                <div class="chapter-header">
+                    <h2 class="chapter-title">Bab III: Kekuatan</h2>
+                    <p class="chapter-subtitle">Menemukan pahlawan dalam diri</p>
+                </div>
+
+                <!-- Morphing Photo Gallery -->
+                <div class="morphing-gallery">
+                    <div class="morphing-photo active">
+                        <img src="kota-lama3.jpg" alt="Strength Photo 1" />
+                        <div class="morph-overlay">
+                            <h4>Ketahanan Luar Biasa</h4>
+                        </div>
+                    </div>
+                    <div class="morphing-photo">
+                        <img src="may-3.jpg" alt="Strength Photo 2" />
+                        <div class="morph-overlay">
+                            <h4>Keberanian Sejati</h4>
+                        </div>
+                    </div>
+                    <div class="morphing-photo">
+                        <img src="may_1.jpg" alt="Strength Photo 3" />
+                        <div class="morph-overlay">
+                            <h4>Kekuatan Hati</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strength-showcase">
+                    <div class="strength-quote">
+                        <p class="main-quote">"Kamu adalah kombinasi sempurna antara kelembutan dan kekuatan, seperti
+                            angin yang bisa menjadi sepoi-sepoi atau badai."</p>
+                        <cite>- Terinspirasi dari "Berandal Bandung"</cite>
+                    </div>
+
+                    <div class="strength-elements">
+                        <div class="strength-card" onclick="revealStrength(this)">
+                            <div class="strength-photo-inline"
+                                style="height:180px;width:180px;overflow:hidden;border-radius:20px;display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                                <img src="couple1.jpg" alt="Strength Card Photo 1"
+                                    style="height:100%;width:auto;border-radius:20px;object-fit:cover;" />
+                            </div>
+                            <div class="strength-icon">💪</div>
+                            <h4>Tempura(klik dong)</h4>
+                            <p class="hidden-text">Kamu telah melewati badai yang bahkan orang dewasa pun takut
+                                menghadapinya.</p>
+                        </div>
+
+                        <div class="strength-card" onclick="revealStrength(this)">
+                            <div class="strength-photo-inline"
+                                style="height:180px;width:180px;overflow:hidden;border-radius:20px;display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                                <img src="may_4.jpg" alt="Strength Card Photo 2"
+                                    style="height:100%;width:auto;border-radius:20px;object-fit:cover;" />
+                            </div>
+                            <div class="strength-icon">❤️</div>
+                            <h4>Wong Atos(klik dong)</h4>
+                            <p class="hidden-text">Hatimu yang besar masih bisa mencintai meski pernah terluka.</p>
+                        </div>
+
+                        <div class="strength-card" onclick="revealStrength(this)">
+                            <div class="strength-photo-inline"
+                                style="height:180px;width:180px;overflow:hidden;border-radius:20px;display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                                <img src="may-3.jpg" alt="Strength Card Photo 3"
+                                    style="height:100%;width:auto;border-radius:20px;object-fit:cover;" />
+                            </div>
+                            <div class="strength-icon">🌈</div>
+                            <h4>so damn butipull(klik dong)</h4>
+                            <p class="hidden-text">Kamu adalah pelangi setelah hujan dalam hidup banyak orang.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="power-meter">
+                    <div class="meter-label">Level Kehebatan Kamu:</div>
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="powerMeter"></div>
+                    </div>
+                    <div class="meter-text">Luar Biasa! 💯</div>
+                </div>
+
+                <button class="next-btn" onclick="nextStep()">
+                    <span>Baca Puisi Khusus</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 5: Poetry -->
+        <section class="story-step" id="step-4">
+            <div class="story-content">
+                <div class="chapter-header">
+                    <h2 class="chapter-title">Bab IV: Puisi Untukmu</h2>
+                    <p class="chapter-subtitle">Kata-kata dari hati ke hati</p>
+                </div>
+
+                <!-- Swirling Photo Background -->
+                <div class="swirling-photos">
+                    <div class="swirl-photo" style="--swirl-duration: 20s; --swirl-delay: 0s;">
+                        <img src="alun-alun1.jpg" alt="Swirl Photo 1" />
+                    </div>
+                    <div class="swirl-photo" style="--swirl-duration: 25s; --swirl-delay: -5s;">
+                        <img src="alun-alun2.jpg" alt="Swirl Photo 2" />
+                    </div>
+                    <div class="swirl-photo" style="--swirl-duration: 30s; --swirl-delay: -10s;">
+                        <img src="alun-alun3.jpg" alt="Swirl Photo 3" />
+                    </div>
+                    <div class="swirl-photo" style="--swirl-duration: 22s; --swirl-delay: -15s;">
+                        <img src="alun-alun4.jpg" alt="Swirl Photo 4" />
+                    </div>
+                </div>
+
+                <div class="poetry-container">
+                    <div class="poem-verses">
+                        <div class="verse active" data-verse="1">
+                            <div class="verse-photo">
+                                <img src="alun-alun5.jpg" alt="Verse Photo 1" />
+                            </div>
+                            <p>Di antara jutaan bintang di langit malam,<br>
+                                Kamu adalah yang paling terang bersinar.<br>
+                                Bukan karena kamu tidak pernah redup,<br>
+                                Tapi karena kamu selalu bangkit bercahaya.</p>
+                        </div>
+
+                        <div class="verse" data-verse="2">
+                            <div class="verse-photo">
+                                <img src="kota-lama2.jpg" alt="Verse Photo 2" />
+                            </div>
+                            <p>Seperti bunga sakura yang mekar di musim semi,<br>
+                                Kecantikanmu bukan hanya dari kelopak yang sempurna,<br>
+                                Tapi dari kekuatan akar yang dalam,<br>
+                                Yang membuatmu tetap berdiri meski angin kencang.</p>
+                        </div>
+
+                        <div class="verse" data-verse="3">
+                            <div class="verse-photo">
+                                <img src="vsga.jpg" alt="Verse Photo 3" />
+                            </div>
+                            <p>Kamu adalah cerita yang ingin kubaca berulang,<br>
+                                Lagu yang ingin kudengar setiap pagi,<br>
+                                Doa yang selalu kuucapkan sebelum tidur,<br>
+                                Dan harapan yang kupeluk dalam setiap mimpi.</p>
+                        </div>
+
+                        <div class="verse" data-verse="4">
+                            <div class="verse-photo">
+                                <img src="kota-lama-bunga4.jpg" alt="Verse Photo 4" />
+                            </div>
+                            <p>Jangan pernah meragukan keajaiban dalam dirimu,<br>
+                                Karena kamu adalah bukti bahwa Tuhan masih mencintai dunia ini,<br>
+                                Dengan menciptakan sosok seindah dan sekuat dirimu.</p>
+                        </div>
+                    </div>
+
+                    <div class="poem-controls">
+                        <button class="verse-btn active" onclick="showVerse(1)">Bait 1</button>
+                        <button class="verse-btn" onclick="showVerse(2)">Bait 2</button>
+                        <button class="verse-btn" onclick="showVerse(3)">Bait 3</button>
+                        <button class="verse-btn" onclick="showVerse(4)">Bait 4</button>
+                    </div>
+                </div>
+
+                <div class="floating-petals" id="petals"></div>
+
+                <button class="next-btn" onclick="nextStep()">
+                    <span>Lihat Galeri Kenangan</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 6: Memories -->
+        <section class="story-step" id="step-5">
+            <div class="story-content">
+                <div class="chapter-header">
+                    <h2 class="chapter-title">Bab V: Galeri Kenangan</h2>
+                    <p class="chapter-subtitle">Momen-momen berharga yang tak terlupakan</p>
+                </div>
+
+                <!-- Cascading Photo Wall -->
+                <div class="cascading-photos">
+                    <div class="cascade-photo" style="--cascade-delay: 0s;">
+                        <img src="kota-lama2.jpg" alt="Cascade Photo 1" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 0.2s;">
+                        <img src="rooftop.jpg" alt="Cascade Photo 2" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 0.4s;">
+                        <img src="kota-lama3.jpg" alt="Cascade Photo 3" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 0.6s;">
+                        <img src="may-3.jpg" alt="Cascade Photo 4" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 0.8s;">
+                        <img src="may_1.jpg" alt="Cascade Photo 5" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 1s;">
+                        <img src="tahun-baru1.jpg" alt="Cascade Photo 6" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 1.2s;">
+                        <img src="may_2.jpg" alt="Cascade Photo 7" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 1.4s;">
+                        <img src="vsga.jpg" alt="Cascade Photo 8" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 1.6s;">
+                        <img src="may_4.jpg" alt="Cascade Photo 9" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 1.8s;">
+                        <img src="alun-alun1.jpg" alt="Cascade Photo 10" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 2s;">
+                        <img src="kota-lama-bunga2.jpg" alt="Cascade Photo 11" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 2.2s;">
+                        <img src="chubby1.jpg" alt="Cascade Photo 12" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 2.4s;">
+                        <img src="w-may-balaikota.jpg" alt="Cascade Photo 13" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 2.6s;">
+                        <img src="ice-cream.jpg" alt="Cascade Photo 14" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 2.7s;">
+                        <img src="alun-alun5.jpg" alt="Cascade Photo 15" />
+                    </div>
+                    <div class="cascade-photo" style="--cascade-delay: 2.7s;">
+                        <img src="alun-alun3.jpg" alt="Cascade Photo 15" />
+                    </div>
+                </div>
+
+                <div class="memory-gallery">
+                    <div class="memory-card" onclick="openMemory(this)" data-memory="1">
+                        <div class="memory-image">
+                            <img src="awal-kenal.jpg" alt="Memory 1" />
+                            <div class="memory-overlay">
+                                <i class="fas fa-heart"></i>
+                                <span>Senyuman Pertama</span>
+                            </div>
+                        </div>
+                        <div class="memory-text">
+                            <h4>Hari Pertama Kita Bertemu</h4>
+                            <p>"Seperti matahari terbit di pagi hari, senyumanmu menerangi hari-hariku."</p>
+                        </div>
+                    </div>
+
+                    <div class="memory-card" onclick="openMemory(this)" data-memory="2">
+                        <div class="memory-image">
+                            <img src="tahun-baru1.jpg" alt="Memory 2" />
+                            <div class="memory-overlay">
+                                <i class="fas fa-star"></i>
+                                <span>Momen Kebahagiaan</span>
+                            </div>
+                        </div>
+                        <div class="memory-text">
+                            <h4>Tawa yang Menular</h4>
+                            <p>"Tawamu adalah musik terindah yang pernah kudengar."</p>
+                        </div>
+                    </div>
+
+                    <div class="memory-card" onclick="openMemory(this)" data-memory="3">
+                        <div class="memory-image">
+                            <img src="kota-lama-bunga2.jpg" alt="Memory 3" />
+                            <div class="memory-overlay">
+                                <i class="fas fa-rainbow"></i>
+                                <span>Setelah Badai</span>
+                            </div>
+                        </div>
+                        <div class="memory-text">
+                            <h4>Bangkit dari Keterpurukan</h4>
+                            <p>"Kamu adalah pelangi yang muncul setelah hujan terberat."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="memory-quotes">
+                    <div class="rotating-quotes" id="rotatingQuotes">
+                        <div class="quote-item active">
+                            <div class="quote-photo">
+                                <img src="alun-alun1.jpg" alt="Quote Photo 1" />
+                            </div>
+                            <p>"Kenangan bersamamu adalah harta yang tak ternilai."</p>
+                            <cite>- Terinspirasi dari "Ayat-Ayat Cinta"</cite>
+                        </div>
+                        <div class="quote-item">
+                            <div class="quote-photo">
+                                <img src="alun-alun2.jpg" alt="Quote Photo 2" />
+                            </div>
+                            <p>"Setiap detik bersamamu adalah keajaiban kecil."</p>
+                            <cite>- Terinspirasi dari "Laskar Pelangi"</cite>
+                        </div>
+                        <div class="quote-item">
+                            <div class="quote-photo">
+                                <img src="alun-alun3.jpg" alt="Quote Photo 3" />
+                            </div>
+                            <p>"Kamu adalah cerita terindah dalam buku hidupku."</p>
+                            <cite>- Terinspirasi dari "Perahu Kertas"</cite>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="next-btn" onclick="nextStep()">
+                    <span>Pesan Terakhir</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 7: Final Message -->
+        <section class="story-step" id="step-6">
+            <div class="story-content">
+                <div class="chapter-header">
+                    <h2 class="chapter-title">Bab VI: Pesan Terakhir</h2>
+                    <p class="chapter-subtitle">Yang terpenting dari semuanya</p>
+                </div>
+
+                <!-- Kaleidoscope Photos -->
+                <div class="kaleidoscope-photos">
+                    <div class="kaleidoscope-segment" style="--rotation: 0deg;">
+                        <img src="alun-alun4.jpg" alt="Kaleidoscope 1" />
+                    </div>
+                    <div class="kaleidoscope-segment" style="--rotation: 60deg;">
+                        <img src="alun-alun5.jpg" alt="Kaleidoscope 2" />
+                    </div>
+                    <div class="kaleidoscope-segment" style="--rotation: 120deg;">
+                        <img src="awal-kenal.jpg" alt="Kaleidoscope 3" />
+                    </div>
+                    <div class="kaleidoscope-segment" style="--rotation: 180deg;">
+                        <img src="couple1.jpg" alt="Kaleidoscope 4" />
+                    </div>
+                    <div class="kaleidoscope-segment" style="--rotation: 240deg;">
+                        <img src="ice-cream.jpg" alt="Kaleidoscope 5" />
+                    </div>
+                    <div class="kaleidoscope-segment" style="--rotation: 300deg;">
+                        <img src="kota-lama1.jpg" alt="Kaleidoscope 6" />
+                    </div>
+                </div>
+
+                <div class="final-message">
+                    <div class="message-container">
+                        <div class="final-quote">
+                            <p class="big-text">"Kamu tidak sendiri dalam perjalanan ini."</p>
+                        </div>
+
+                        <div class="support-elements">
+                            <div class="support-card" onclick="showSupport(1)">
+                                <div class="support-photo">
+                                    <img src="kota-lama2.jpg" alt="Support Photo 1" />
+                                </div>
+                                <div class="support-icon">🤗</div>
+                                <h4>Selalu Ada Untukmu</h4>
+                                <p>Kapanpun kamu butuh seseorang untuk mendengar</p>
+                            </div>
+
+                            <div class="support-card" onclick="showSupport(2)">
+                                <div class="support-photo">
+                                    <img src="kota-lama3.jpg" alt="Support Photo 2" />
+                                </div>
+                                <div class="support-icon">💌</div>
+                                <h4>Pesan Harian</h4>
+                                <p>Pengingat bahwa kamu luar biasa setiap hari</p>
+                            </div>
+
+                            <div class="support-card" onclick="showSupport(3)">
+                                <div class="support-photo">
+                                    <img src="may-3.jpg" alt="Support Photo 3" />
+                                </div>
+                                <div class="support-icon">🌟</div>
+                                <h4>Motivasi Tak Terbatas</h4>
+                                <p>Semangat yang tidak akan pernah habis untukmu</p>
+                            </div>
+                        </div>
+
+                        <div class="final-buttons">
+                            <button class="special-btn" onclick="showFinalMessage()">
+                                <i class="fas fa-envelope-heart"></i>
+                                <span>Buka Pesan Rahasia</span>
+                            </button>
+
+                            <button class="restart-btn" onclick="restartStory()">
+                                <i class="fas fa-redo"></i>
+                                <span>Baca Ulang Cerita</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floating-elements">
+                    <div class="floating-heart">💖</div>
+                    <div class="floating-star">⭐</div>
+                    <div class="floating-flower">🌸</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modals -->
+    <div id="loveModal" class="modal">
+        <div class="modal-content love-modal">
+            <span class="close" onclick="closeLoveModal()">&times;</span>
+            <div class="love-animation">
+                <div class="beating-heart">💖</div>
+            </div>
+            <h3>Cinta Terkirim! 💕</h3>
+            <p>Pelukan virtual dan cinta tulus telah dikirim langsung ke hatimu. Kamu dicintai lebih dari yang kamu
+                tahu! 🤗</p>
+        </div>
+    </div>
+
+    <div id="finalModal" class="modal">
+        <div class="modal-content final-modal">
+            <span class="close" onclick="closeFinalModal()">&times;</span>
+            <div class="final-animation">
+                <div class="sparkle-container">
+                    <div class="sparkle">✨</div>
+                    <div class="sparkle">💫</div>
+                    <div class="sparkle">⭐</div>
+                </div>
+            </div>
+            <h3>Pesan Rahasia Untukmu 💝</h3>
+            <div class="secret-message">
+                <p>Kamu adalah keajaiban yang berjalan di bumi ini. Setiap hari kamu bangun adalah hari dimana dunia
+                    menjadi tempat yang lebih indah.</p>
+                <p><strong>Ingatlah selalu:</strong></p>
+                <ul>
+                    <li>🌟 Kamu lebih kuat dari yang kamu kira</li>
+                    <li>💖 Kamu dicintai lebih dari yang kamu rasakan</li>
+                    <li>🌈 Masa depanmu penuh dengan keajaiban</li>
+                    <li>✨ Kamu adalah jawaban dari doa seseorang</li>
+                </ul>
+                <p class="final-words">"Dan yang terpenting, kamu tidak pernah sendirian. Aku akan selalu di sini, dalam
+                    setiap doa, dalam setiap harapan, dan dalam setiap cinta yang kukirimkan untukmu." 💕</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
